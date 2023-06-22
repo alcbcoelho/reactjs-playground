@@ -2,17 +2,25 @@ import { DevTool } from "@hookform/devtools";   // devTool para React Hook Form
 import { useForm } from "react-hook-form"
 import { useNavigate } from "react-router-dom";
 
+// context shit
+import { useContext } from "react";
+import UserContext from "../contexts/UserContext";
+
 export default function RegistrationForm() {
     // hooks
     const navigate = useNavigate();
     const form = useForm();
+    const { changeUsername } = useContext(UserContext);     // [CONTEXT] desestruturando do contexto UserContext (que guarda um estado p/ nome de usuário p/ ser usado em toda a aplicação) a função changeUsername, p/ mudar tal estado
 
     const { register, control, handleSubmit, formState: { errors } } = form;    // the formState thing is the same as destructuring it separately afterwards:
     // const { errors } = formState;
     // The "errors" object contain errors for every field that has field validation.
-
+    
     const onSubmit = (data) => {
         console.log(data);
+
+        changeUsername(data.username);  // modificando o estado 'username' do UserContext.jsx p/ o username definido no formulário
+
         navigate("/");
     };
 
